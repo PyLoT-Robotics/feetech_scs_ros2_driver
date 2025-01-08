@@ -9,6 +9,11 @@ endif()
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
+find_package(dynamixel_sdk_custom_interfaces REQUIRED)
+
+
+
+
 set(TARGET ping)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 

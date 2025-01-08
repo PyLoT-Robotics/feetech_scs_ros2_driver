@@ -37,6 +37,45 @@ PubFeetechNode::PubFeetechNode()
   const auto QOS_RKL10V =
     rclcpp::QoS(rclcpp::KeepLast(qos_depth)).reliable().durability_volatile();
     publisher_six_motor_present_position_ = this->create_publisher<dynamixel_sdk_custom_interfaces::msg::SetPositionSixMotor>("/six_motor_present_position", 10);
+    timer_ = create_wall_timer(
+        std::chrono::milliseconds(10),
+        std::bind(&PubFeetechNode::publishData, this)
+    );
+}
+
+void PubFeetechNode::publishData()
+{
+    SetPositionSixMotor message;
+
+  unsigned char* id[] = { &message.id_1, &message.id_2, &message.id_3 ,&message.id_4, &message.id_5, &message.id_6 };
+
+  //int msg.position_1, msg.position_2, msg.position_3, msg.position_4, msg.position_5;
+  int* position[] = { &message.position_1, &message.position_2, &message.position_3, &message.position_4, &message.position_5, &message.position_6 };
+  uint32_t present; 
+
+  using namespace std::chrono_literals;  // NOLINT
+  for (int i = 1; i < 7; i++)
+  {
+
+    int16_t val = 0;
+    if (packet_handler->readPos(i, val))
+    {
+      float pos_angle = feetech_sts_interface::STS3032::data2angle(val);
+      std::cout << "id: " << i << " ";
+      std::cout << "pos: ";
+      std::cout << std::fixed << std::setprecision(3) << pos_angle;
+      std::cout << " deg" << std::endl;
+      *id[i-1] = static_cast<unsigned char>(i);
+      *position[i-1] = static_cast<int>(present);
+    }
+    else
+    {
+      std::cout << "failed to read pos" << std::endl;
+    }
+  }
+  publisher_six_motor_present_position_ ->publish(message);
+  std::this_thread::sleep_for(5ms);
+
 }
 
 
@@ -61,40 +100,13 @@ int main(int argc, char ** argv)
 
   packet_handler->setTorque(TARGET_ID, 0);
 
-  SetPositionSixMotor message;
-
-  unsigned char* id[] = { &message.id_1, &message.id_2, &message.id_3 ,&message.id_4, &message.id_5, &message.id_6 };
-
-  //int msg.position_1, msg.position_2, msg.position_3, msg.position_4, msg.position_5;
-  int* position[] = { &message.position_1, &message.position_2, &message.position_3, &message.position_4, &message.position_5, &message.position_6 };
-  uint32_t present; 
-
-  using namespace std::chrono_literals;  // NOLINT
-  while (true)
-  {
-    for (int i = 1; i < 7; i++)
-    {
-
-      int16_t val = 0;
-      if (packet_handler->readPos(i, val))
-      {
-        float pos_angle = feetech_sts_interface::STS3032::data2angle(val);
-        std::cout << "id: " << i << " ";
-        std::cout << "pos: ";
-        std::cout << std::fixed << std::setprecision(3) << pos_angle;
-        std::cout << " deg" << std::endl;
-        *id[i-11] = static_cast<unsigned char>(i);
-        *position[i-11] = static_cast<int>(present);
-      }
-      else
-      {
-        std::cout << "failed to read pos" << std::endl;
-      }
-    }
-    publisher_six_motor_present_position_ ->publish(message);
-    std::this_thread::sleep_for(5ms);
-  }
+  rclcpp::init(argc, argv);
+  auto pubfeetechnode = std::make_shared<PubFeetechNode>();
+  rclcpp::spin(pubfeetechnode);
 
   port_handler->close();
+
+  rclcpp::shutdown();
+
   return EXIT_FAILURE;
 }
