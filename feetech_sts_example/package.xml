@@ -7,13 +7,23 @@
   <maintainer email="53618876+fateshelled@users.noreply.github.com">fateshelled</maintainer>
   <license>Apache-2.0</license>
 
+  <depend>rclcpp</depend>
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
+  <depend>rclcpp_components</depend>
 
   <depend>feetech_sts_interface</depend>
   <depend>geometry_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+
+
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_flake8</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_pep257</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
 
   
   <build_depend>dynamixel_sdk_custom_interfaces</build_depend>

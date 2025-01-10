@@ -5,12 +5,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+find_package(dynamixel_sdk_custom_interfaces REQUIRED)
+find_package(rclcpp_components REQUIRED)
+
 
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
-
-find_package(dynamixel_sdk_custom_interfaces REQUIRED)
-
 
 
 
@@ -30,7 +30,12 @@ ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 # ament_auto_add_executable(${TARGET} ./src/no_api/${TARGET}.cpp)
 
 set(TARGET read_pos)
-ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
+ament_auto_add_library(read_pos SHARED src/read_pos.cpp)
+rclcpp_components_register_nodes(${TARGET} "feetech_sts_interface::PubFeetechNode")
+ament_auto_add_executable(read_pos_node 
+  src/read_pos.cpp
+  src/read_pos_node.cpp)
+
 
 set(TARGET read_spd)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)

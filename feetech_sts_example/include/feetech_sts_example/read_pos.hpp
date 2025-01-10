@@ -1,5 +1,5 @@
-#ifndef READ_WRITE_NODE_HPP_
-#define READ_WRITE_NODE_HPP_
+#ifndef READ_WRITE_NODEHPP
+#define READ_WRITE_NODEHPP
 
 #include <cstdio>
 #include <memory>
@@ -9,19 +9,26 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include "dynamixel_sdk_custom_interfaces/msg/set_position_six_motor.hpp"
+#include "feetech_sts_example/visibility_control.h"
+
+namespace feetech_sts_interface
+{
+  
 
 class PubFeetechNode : public rclcpp::Node
 {
 public:
     using SetPositionSixMotor = dynamixel_sdk_custom_interfaces::msg::SetPositionSixMotor;
-    PubFeetechNode();
+    explicit PubFeetechNode(const rclcpp::NodeOptions & options);
+    virtual ~PubFeetechNode();
 
 
 private:
-    void publishData();
-    rclcpp::Publisher<SetPositionSixMotor>::SharedPtr publisher_six_motor_present_position_;
+    rclcpp::Publisher<SetPositionSixMotor>::SharedPtr publisher_six_motor_present_position;
     rclcpp::TimerBase::SharedPtr timer_;
     feetech_sts_interface::PacketHandler* packet_handler;
 };
 
-#endif  // JOINT_PUB_NODE_HPP_
+}  // namespace feetech_sts_interface
+
+#endif  // JOINT_PUB_NODEHPP
