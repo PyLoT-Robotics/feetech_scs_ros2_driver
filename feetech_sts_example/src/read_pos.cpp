@@ -17,6 +17,7 @@
 #include <rclcpp_components/register_node_macro.hpp>
 
 #include <feetech_sts_interface/feetech_sts_interface.hpp>
+#include <h6x_serial_interface/port_handler.hpp>
 #include <unistd.h>
 #include <iomanip>
 
@@ -34,16 +35,9 @@ PubFeetechNode::PubFeetechNode(const rclcpp::NodeOptions & options)
   RCLCPP_INFO_STREAM(get_logger(), "start initializing publisher");
   publisher_six_motor_present_position = this->create_publisher<SetPositionSixMotor>("six_motor_presentposition", 10);
   
-  int argc = 0;
-  char ** argv = nullptr;
-  
-  if (argc != 4) {
-    std::cout << "Usage: " << argv[0] << " <id (0)> <port_name (/dev/ttyUSB0)> <baudrate (1000000)>" << std::endl;
-    throw std::runtime_error("Failed to open port.");
-  }
-  int TARGET_ID = std::stoi(argv[1]);
-  std::string port_name = argv[2];
-  int baudrate = std::stoi(argv[3]);
+  int TARGET_ID = 1;
+  std::string port_name = "/dev/ttyUSB0";
+  int baudrate = 1000000;
 
   auto port_handler = std::make_shared<h6x_serial_interface::PortHandler>(port_name);
   auto packet_handler = std::make_shared<feetech_sts_interface::PacketHandler>(port_handler);
@@ -91,14 +85,13 @@ PubFeetechNode::PubFeetechNode(const rclcpp::NodeOptions & options)
     publisher_six_motor_present_position->publish(msg);
   });
 
-
-  port_handler->close();
-
 }
 
 PubFeetechNode::~PubFeetechNode()
 {
   RCLCPP_INFO(this->get_logger(), "Shutting down");
+  auto port_handler = std::make_shared<h6x_serial_interface::PortHandler>("/dev/ttyUSB0");
+  port_handler->close();
 }
 }  // namespace feetech_sts_interface
 
