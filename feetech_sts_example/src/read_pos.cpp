@@ -50,7 +50,7 @@ PubFeetechNode::PubFeetechNode(const rclcpp::NodeOptions & options)
   packet_handler->setTorque(TARGET_ID, 0);
 
   using namespace std::chrono_literals;  // NOLINT
-  timer_ = create_wall_timer(0.1ms,[this,packet_handler](){
+  timer_ = create_wall_timer(0.00001ms,[this,packet_handler](){
     dynamixel_sdk_custom_interfaces::msg::SetPositionSixMotor msg;
     
     int pos[6]={};
@@ -76,12 +76,12 @@ PubFeetechNode::PubFeetechNode(const rclcpp::NodeOptions & options)
     msg.id_4 = 14;
     msg.id_5 = 15;
     msg.id_6 = 16;
-    msg.position_1 = (4096 - pos[0] + 1500) % 4096;
+    msg.position_1 = (4096 - pos[0] + 3100);
     msg.position_2 = (pos[1] + 300) % 4096;
     msg.position_3 = (pos[2] + 1750) % 4096;
     msg.position_4 = (pos[3] - 1700 + 4096) % 4096;
     msg.position_5 = (4096 - pos[4] + 3500) % 4096;
-    msg.position_6 = (4096 - pos[5]+6800) % 4096;
+    msg.position_6 = (4096 - pos[5]+6600) % 4096;
     publisher_six_motor_present_position->publish(msg);
   });
 
