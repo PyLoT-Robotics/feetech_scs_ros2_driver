@@ -33,6 +33,12 @@ ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 # set(TARGET write_spd)
 # ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
+set(TARGET read_write_position)
+ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
+
+set(TARGET create_servo_config)
+ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
+
 set(TARGET differential_wheel_control_mode1)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
@@ -44,6 +50,7 @@ if(BUILD_TESTING)
   set(ament_cmake_copyright_FOUND TRUE)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+  find_package(sensor_msgs REQUIRED)
 endif()
 
 ament_auto_package()
