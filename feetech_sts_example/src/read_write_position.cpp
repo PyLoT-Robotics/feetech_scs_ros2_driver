@@ -134,6 +134,27 @@ double mapInputToServo(double input_angle, const ServoLimits& limits) {
   return limits.min_angle + normalized * servo_range;
 }
 
+// Convert servo angle (physical) back to input angle (logical)
+double mapServoToInput(double servo_angle, const ServoLimits& limits) {
+  // Reverse mapping from servo range to input range
+  double input_range = limits.input_max - limits.input_min;
+  double servo_range = limits.max_angle - limits.min_angle;
+  
+  if (servo_range == 0) {
+    return (limits.input_min + limits.input_max) / 2.0;
+  }
+  
+  // Normalize servo angle to 0-1 range
+  double normalized = (servo_angle - limits.min_angle) / servo_range;
+  
+  // Clamp to 0-1
+  if (normalized < 0.0) normalized = 0.0;
+  if (normalized > 1.0) normalized = 1.0;
+  
+  // Map to input range
+  return limits.input_min + normalized * input_range;
+}
+
 // Global pointers for signal handler
 std::shared_ptr<feetech_sts_interface::PacketHandler> g_packet_handler;
 std::shared_ptr<std::set<u_char>> g_torque_enabled_ids;
@@ -202,13 +223,13 @@ public:
 
     joint_state_sub_ =
       this->create_subscription<JointState>(
-        "joint_states",
+        "joint_command",
         qos,
         std::bind(&FeetechJointStateNode::jointStateCallback, this, std::placeholders::_1)
       );
     
     joint_state_pub_ =
-      this->create_publisher<JointState>("joint_states_current", qos);
+      this->create_publisher<JointState>("joint_states_raw", qos);
     
     // Timer to publish current positions
     auto timer_period = std::chrono::milliseconds(static_cast<int>(1000.0 / publish_rate));
@@ -227,9 +248,18 @@ private:
     for (const auto& id : *torque_enabled_ids_) {
       int16_t pos_data = 0;
       if (packet_handler_->readPos(id, pos_data)) {
-        // Convert data to angle in degrees, then to radians
-        double angle_deg = feetech_sts_interface::STS3032::data2angle(pos_data);
-        double angle_rad = angle_deg * M_PI / 180.0;
+        // Convert data to angle in degrees (servo angle)
+        double servo_angle_deg = feetech_sts_interface::STS3032::data2angle(pos_data);
+        
+        // Convert servo angle back to logical input angle
+        double input_angle_deg = servo_angle_deg;
+        if (servo_limits_.count(id) > 0) {
+          const ServoLimits& limits = servo_limits_.at(id);
+          input_angle_deg = mapServoToInput(servo_angle_deg, limits);
+        }
+        
+        // Convert to radians
+        double angle_rad = input_angle_deg * M_PI / 180.0;
         
         msg.name.push_back(std::to_string(id));
         msg.position.push_back(angle_rad);
@@ -357,7 +387,7 @@ int main(int argc, char ** argv)
   // Scan for connected servos and enable torque on all of them
   RCLCPP_INFO(
     rclcpp::get_logger("feetech_joint_state_node"),
-    "Scanning for connected servos (ID 1-10)..."
+    "Scanning for connected servos (ID 1-6)..."
   );
   
   auto torque_enabled_ids = std::make_shared<std::set<u_char>>();
@@ -370,7 +400,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, signalHandler);
   std::signal(SIGTERM, signalHandler);
   
-  const u_char max_id = 10; // Scan only IDs 1-10 to avoid long delays
+  const u_char max_id = 6; // Scan only IDs 1-6 to avoid long delays
   
   for (u_char id = 1; id <= max_id; ++id) {
     // Wait before ping to ensure clean communication

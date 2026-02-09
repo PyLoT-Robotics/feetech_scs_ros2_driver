@@ -36,7 +36,7 @@ ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 set(TARGET read_write_position)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
-set(TARGET create_servo_config)
+set(TARGET calibration_servo_config)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
 set(TARGET differential_wheel_control_mode1)

@@ -32,7 +32,22 @@ struct ServoRange {
   double max_angle = std::numeric_limits<double>::lowest();
   int speed = 1000;
   int acceleration = 50;
+  double input_min = 0.0;
+  double input_max = 0.0;
 };
+
+// Default input angle mappings for each servo ID
+// These values should be set based on the robot's coordinate system
+std::map<u_char, std::pair<double, double>> getDefaultInputMappings() {
+  return {
+    {1, {-115.0, 115.0}},
+    {2, {-105.0, 105.0}},
+    {3, {-90.0, 90.0}},
+    {4, {-110.0, 110.0}},
+    {5, {-180.0, 180.0}},
+    {6, {-120.0, 0.0}}
+  };
+}
 
 int main(int argc, char ** argv)
 {
@@ -147,6 +162,9 @@ int main(int argc, char ** argv)
   std::cout << "\n=== All servos calibrated! ===\n";
   std::cout << "Saving configuration to: " << output_file << "\n\n";
 
+  // Get default input mappings from code
+  auto default_mappings = getDefaultInputMappings();
+
   // Create YAML configuration
   std::ofstream yaml_file(output_file);
   if (!yaml_file.is_open()) {
@@ -161,18 +179,23 @@ int main(int argc, char ** argv)
 
   for (const auto& id : found_servos) {
     const auto& range = servo_ranges[id];
-    double center = (range.min_angle + range.max_angle) / 2.0;
-    double half_range = (range.max_angle - range.min_angle) / 2.0;
+    
+    // Use default input mapping for this servo
+    double input_min_value = -((range.max_angle - range.min_angle) / 2.0);
+    double input_max_value = ((range.max_angle - range.min_angle) / 2.0);
+    
+    if (default_mappings.count(id) > 0) {
+      input_min_value = default_mappings[id].first;
+      input_max_value = default_mappings[id].second;
+    }
     
     yaml_file << "  - id: " << static_cast<int>(id) << "\n";
     yaml_file << "    name: \"servo_" << static_cast<int>(id) << "\"\n";
-    yaml_file << "    # Physical angle limits (calibrated)\n";
+    yaml_file << "    # Angle limits in degrees (calibrated)\n";
     yaml_file << "    min_angle: " << range.min_angle << "\n";
     yaml_file << "    max_angle: " << range.max_angle << "\n";
-    yaml_file << "    # Input angle mapping (logical angles)\n";
-    yaml_file << "    # Adjust these based on robot's coordinate system\n";
-    yaml_file << "    input_min: " << -half_range << "  # e.g., for yaw: -90.0\n";
-    yaml_file << "    input_max: " << half_range << "  # e.g., for yaw: 90.0\n";
+    yaml_file << "    input_min:" << input_min_value << "\n";
+    yaml_file << "    input_max:" << input_max_value << "\n";
     yaml_file << "    # Default speed and acceleration\n";
     yaml_file << "    default_speed: " << range.speed << "\n";
     yaml_file << "    default_acceleration: " << range.acceleration << "\n";
