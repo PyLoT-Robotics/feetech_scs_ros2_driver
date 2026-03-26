@@ -43,10 +43,16 @@ ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 # set(TARGET write_spd)
 # ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
+set(TARGET read_pos_simple)
+ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
+
 set(TARGET differential_wheel_control_mode1)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
 set(TARGET differential_wheel_control_mode2)
+ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
+
+set(TARGET pantilt_read_write_node)
 ament_auto_add_executable(${TARGET} ./src/${TARGET}.cpp)
 
 if(BUILD_TESTING)
