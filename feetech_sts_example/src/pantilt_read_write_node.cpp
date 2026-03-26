@@ -25,8 +25,8 @@
 #define PAN_ORIGIN    1900
 
 // Default speed and acceleration for position writes
-#define DEFAULT_SPEED 500
-#define DEFAULT_ACC   50
+#define DEFAULT_SPEED 2000
+#define DEFAULT_ACC   500
 
 PantiltReadWriteNode::PantiltReadWriteNode(
   std::shared_ptr<h6x_serial_interface::PortHandler> port_handler,
