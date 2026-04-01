@@ -20,4 +20,12 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Install udev rules
+install(DIRECTORY udev_rules/
+  DESTINATION share/${PROJECT_NAME}/udev_rules)
+
+# Install udev setup script
+install(PROGRAMS scripts/install_udev_rules.sh
+  DESTINATION share/${PROJECT_NAME}/scripts)
+
 ament_auto_package()
