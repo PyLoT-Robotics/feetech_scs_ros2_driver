@@ -2,8 +2,7 @@
 # CH340 USB-to-Serial adapter (QinHeng Electronics)
 # VID:PID 1a86:55d3
 
-# Create symlink /dev/ttyUSB_sts3215 for the STS3215 board
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", MODE="0666", SYMLINK+="ttyUSB_sts3215"
-
-# Grant permission to dialout group (typically used for serial devices)
-SUBSYSTEMS=="usb-serial", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", MODE="0666", GROUP="dialout"
+# Find the ttyACM device created by this USB adapter
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", SUBSYSTEM=="tty", \
+  MODE="0666", GROUP="dialout", \
+  RUN+="/bin/sh -c 'ln -sf $DEVNAME /dev/ttyUSB_sts3215'"

@@ -12,7 +12,7 @@ The udev rule will:
 ## Device Info
 
 - **Chip**: CH340 (QinHeng Electronics)
-- **USB ID**: `1a86:55d3`
+- **USB ID**: `1a86:7523`
 - **Default symlink**: `/dev/ttyUSB_sts3215`
 - **Serial port baud rate**: Configure as needed in your application (typically 1 Mbps for STS3215)
 
@@ -50,7 +50,7 @@ After installation, connect the STS3215 board via USB and verify:
 
 ```bash
 # List USB devices
-lsusb | grep "1a86:55d3"
+lsusb | grep "1a86:7523"
 
 # Check if symlink exists
 ls -la /dev/ttyUSB_sts3215

@@ -258,25 +258,25 @@ namespace feetech_sts_interface
         // int32_t error_ = 0;
         if (!checkHead())
         {
-            return -1;
+            return false;
         }
         uint8_t b_buf[4];
         if (this->port_handler_->read(reinterpret_cast<char *>(b_buf), 4) != 4)
         {
-            return -1;
+            return false;
         }
         if (b_buf[0] != id && id != 0xfe)
         {
-            return -1;
+            return false;
         }
         if (b_buf[1] != 2)
         {
-            return -1;
+            return false;
         }
         uint8_t cal_sum = ~(b_buf[0] + b_buf[1] + b_buf[2]);
         if (cal_sum != b_buf[3])
         {
-            return -1;
+            return false;
         }
         // error_ = b_buf[2];
         return ret;
