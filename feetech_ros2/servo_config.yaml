@@ -1,0 +1,77 @@
+# Feetech STS Servo Configuration
+# Auto-generated configuration file
+# Calibrated by manual movement
+
+servos:
+  - id: 1
+    name: "servo_1"
+    # Angle limits in degrees (calibrated)
+    min_angle: 70.8398
+    max_angle: 303.486
+    input_min:-115
+    input_max:115
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+  - id: 2
+    name: "servo_2"
+    # Angle limits in degrees (calibrated)
+    min_angle: 81.5625
+    max_angle: 290.479
+    input_min:-105
+    input_max:105
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+  - id: 3
+    name: "servo_3"
+    # Angle limits in degrees (calibrated)
+    min_angle: 70.3125
+    max_angle: 268.33
+    input_min:-90
+    input_max:90
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+  - id: 4
+    name: "servo_4"
+    # Angle limits in degrees (calibrated)
+    min_angle: 67.1484
+    max_angle: 285.117
+    input_min:-110
+    input_max:110
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+  - id: 5
+    name: "servo_5"
+    # Angle limits in degrees (calibrated)
+    min_angle: 1.05469
+    max_angle: 357.979
+    input_min:-180
+    input_max:180
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+  - id: 6
+    name: "servo_6"
+    # Angle limits in degrees (calibrated)
+    min_angle: 177.803
+    max_angle: 307.178
+    input_min:-120
+    input_max:0
+    # Default speed and acceleration
+    default_speed: 1000
+    default_acceleration: 50
+
+# Communication settings
+port: "/dev/ttyACM0"
+baudrate: 1000000
+
+# Publishing rate for current state (Hz)
+publish_rate: 10.0

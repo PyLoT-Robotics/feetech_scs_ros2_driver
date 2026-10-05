@@ -1,0 +1,26 @@
+diff --git a/scripts/reinforcement_learning/rsl_rl/play.py b/scripts/reinforcement_learning/rsl_rl/play.py
+index a6e2ea8..8c4f996 100644
+--- a/scripts/reinforcement_learning/rsl_rl/play.py
++++ b/scripts/reinforcement_learning/rsl_rl/play.py
+@@ -77,7 +77,7 @@ from isaaclab.utils.assets import retrieve_file_path
+ from isaaclab.utils.dict import print_dict
+ 
+ from isaaclab_rl.rsl_rl import RslRlBaseRunnerCfg, RslRlVecEnvWrapper, export_policy_as_jit, export_policy_as_onnx
+-from isaaclab_rl.utils.pretrained_checkpoint import get_published_pretrained_checkpoint
++from isaaclab.utils.pretrained_checkpoint import get_published_pretrained_checkpoint
+ 
+ from isaaclab_tasks.utils import get_checkpoint_path
+ from isaaclab_tasks.utils.hydra import hydra_task_config
+diff --git a/source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/humanoid/booster_t1/agents/cusrl_ppo_cfg.py b/source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/humanoid/booster_t1/agents/cusrl_ppo_cfg.py
+index 1074b3c..8414801 100644
+--- a/source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/humanoid/booster_t1/agents/cusrl_ppo_cfg.py
++++ b/source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/humanoid/booster_t1/agents/cusrl_ppo_cfg.py
+@@ -9,7 +9,7 @@ from cusrl.environment.isaaclab import TrainerCfg
+ 
+ @dataclass
+ class BoosterT1RoughTrainerCfg(TrainerCfg):
+-    max_iterations = 3000
++    max_iterations = 30000
+     save_interval = 100
+     experiment_name = "booster_t1_rough"
+     agent_factory = cusrl.ActorCritic.Factory(

@@ -1,0 +1,90 @@
+[
+  {
+    "project": "IsaacLab",
+    "base_commit": "9d17b524536b341da09987ef765a0ad0501c64ca",
+    "origin": "git@github.com:isaac-sim/IsaacLab.git",
+    "files": [
+      "source/isaaclab_assets/isaaclab_assets/robots/booster_t1.py"
+    ]
+  },
+  {
+    "project": "booster_train",
+    "base_commit": "b77e0e9580b9d8ffeb80ea955a796bedf33f8923",
+    "origin": "https://github.com/BoosterRobotics/booster_train.git",
+    "files": [
+      "source/booster_train/booster_train/tasks/manager_based/beyond_mimic/robots/k1/walk_forward/__init__.py",
+      "source/booster_train/booster_train/tasks/manager_based/beyond_mimic/robots/k1/walk_forward/env_cfg.py",
+      "source/booster_train/booster_train/tasks/manager_based/beyond_mimic/robots/k1/walk_forward/ppo_cfg.py",
+      "source/booster_train/booster_train/tasks/manager_based/beyond_mimic/robots/k1/walk_forward/tracking_env_cfg.py"
+    ]
+  },
+  {
+    "project": "booster_gym",
+    "base_commit": "da396a06d6eed99e2de72d7749c48ee8748950f9",
+    "origin": "git@github.com:BoosterRobotics/booster_gym.git",
+    "files": [
+      "resources/T1/T1_locomotion/T1_locomotion.usd",
+      "resources/T1/T1_locomotion/configuration/T1_locomotion_base.usd",
+      "resources/T1/T1_locomotion/configuration/T1_locomotion_physics.usd",
+      "resources/T1/T1_locomotion/configuration/T1_locomotion_robot.usd",
+      "resources/T1/T1_locomotion/configuration/T1_locomotion_sensor.usd",
+      "resources/T1/T1_serial/T1_serial.usd",
+      "resources/T1/T1_serial/configuration/T1_serial_base.usd",
+      "resources/T1/T1_serial/configuration/T1_serial_physics.usd",
+      "resources/T1/T1_serial/configuration/T1_serial_robot.usd",
+      "resources/T1/T1_serial/configuration/T1_serial_sensor.usd",
+      "resources/T1/booster_serial.usd"
+    ]
+  },
+  {
+    "project": "robot_lab",
+    "base_commit": "731a7a4023978691d3de11dc3ce510caf13bff2c",
+    "origin": "https://github.com/fan-ziqi/robot_lab.git",
+    "files": [
+      "scripts/reinforcement_learning/rsl_rl/play.py",
+      "source/robot_lab/robot_lab/tasks/manager_based/locomotion/velocity/config/humanoid/booster_t1/agents/cusrl_ppo_cfg.py"
+    ]
+  },
+  {
+    "project": "booster_t1/booster_t1",
+    "base_commit": "3735890c4bfd79985baf5579c281b7760a8bb09f",
+    "origin": null,
+    "files": [
+      ".dockerignore",
+      ".flake8",
+      ".gitattributes",
+      ".gitignore",
+      ".pre-commit-config.yaml",
+      ".vscode/.gitignore",
+      ".vscode/extensions.json",
+      ".vscode/tasks.json",
+      ".vscode/tools/launch.template.json",
+      ".vscode/tools/settings.template.json",
+      ".vscode/tools/setup_vscode.py",
+      "README.md",
+      "scripts/list_envs.py",
+      "scripts/random_agent.py",
+      "scripts/rsl_rl/cli_args.py",
+      "scripts/rsl_rl/play.py",
+      "scripts/rsl_rl/train.py",
+      "scripts/skrl/play.py",
+      "scripts/skrl/train.py",
+      "scripts/zero_agent.py",
+      "source/booster_t1/booster_t1/__init__.py",
+      "source/booster_t1/booster_t1/tasks/__init__.py",
+      "source/booster_t1/booster_t1/tasks/direct/__init__.py",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/__init__.py",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/agents/__init__.py",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/agents/rsl_rl_ppo_cfg.py",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/agents/skrl_amp_cfg.yaml",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/agents/skrl_ppo_cfg.yaml",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/booster_t1_env.py",
+      "source/booster_t1/booster_t1/tasks/direct/booster_t1/booster_t1_env_cfg.py",
+      "source/booster_t1/booster_t1/ui_extension_example.py",
+      "source/booster_t1/config/extension.toml",
+      "source/booster_t1/docs/CHANGELOG.rst",
+      "source/booster_t1/pyproject.toml",
+      "source/booster_t1/setup.py"
+    ]
+  }
+]
